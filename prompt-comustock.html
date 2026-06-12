@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comustock :: Agentes</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+
+  <body>
+    <main class="app" id="app">
+      <header class="topbar">
+        <div class="brand">Asistente</div>
+      </header>
+
+      <section class="viewport" id="viewport">
+        <section class="intro" id="intro">
+          <div class="welcome">
+            <div class="eyebrow">Asistente</div>
+            <h1 id="welcomeTitle">Hola, Benja.</h1>
+          </div>
+
+          <div class="slot" id="introSlot"></div>
+
+          <div class="starter-tools" id="starterTools">
+            <div class="starter-buttons" id="starterButtons">
+              <button class="starter-chip" type="button" data-group="analizar">Analizar</button>
+              <button class="starter-chip" type="button" data-group="escribir">Escribir</button>
+              <button class="starter-chip" type="button" data-group="planificar">Planificar</button>
+            </div>
+
+            <div class="starter-dropdown" id="starterDropdown" hidden>
+              <button class="starter-dropdown-close" id="starterDropdownClose" type="button"
+                aria-label="Cerrar">×</button>
+              <div class="starter-list" id="starterList"></div>
+            </div>
+          </div>
+
+          <div class="footer-note">Si tenés alguna consulta, contactate con el equipo de <a
+              href="mailto:comunicacioninterna@personal.com.ar">Comunicación Interna</a>.</div>
+        </section>
+
+        <section class="conversation" id="conversation">
+          <div class="messages" id="messages"></div>
+        </section>
+
+        <section class="dock" id="dock">
+          <div class="dock-slot" id="dockSlot"></div>
+        </section>
+      </section>
+    </main>
+
+    <template id="composerTemplate">
+      <div class="composer-shell" id="composerShell">
+        <div class="prompt-wrap">
+          <form class="prompt-box" id="composerForm">
+            <button class="clear-icon" id="clearBtn" type="button" aria-label="Limpiar">×</button>
+            <textarea id="composerInput" placeholder="¿Cómo puedo ayudarte?"></textarea>
+            <div class="bottom">
+              <div class="attach-wrap">
+                <button class="icon-btn" id="attachBtn" type="button" aria-label="Agregar contenido">＋</button>
+                <div class="attach-menu" id="attachMenu" hidden>
+                  <button class="attach-item" type="button" data-attach="documento">Agregar documento</button>
+                  <button class="attach-item" type="button" data-attach="imagen">Agregar imagen</button>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="send-btn" id="sendBtn" type="submit">Enviar →</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </template>
+
+    <!-- JS modularizado: el orden importa -->
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/composer.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+
+</html>
