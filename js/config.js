@@ -54,3 +54,29 @@ const RANDOM_GREETINGS = [
 ];
 
 const N8N_WEBHOOK_URL = "http://localhost:5678/webhook/comustock-chat";
+
+// ─── Identidad de la conversación (memoria DB) ─────────────────────────────
+// El backend n8n persiste estado por conversationId en PostgreSQL.
+// Para que la memoria funcione, el MISMO conversationId tiene que viajar en
+// todos los requests de la sesión. Se genera una sola vez y se guarda en
+// localStorage; clearChat() lo resetea para arrancar una conversación nueva.
+
+const CONVERSATION_ID_KEY = STORAGE_KEY + ":conversationId";
+const CHAT_USER_ID = "benja";
+
+function getConversationId() {
+  let id = localStorage.getItem(CONVERSATION_ID_KEY);
+  if (!id) {
+    id =
+      "conv-" +
+      Date.now().toString(36) +
+      "-" +
+      Math.random().toString(36).slice(2, 8);
+    localStorage.setItem(CONVERSATION_ID_KEY, id);
+  }
+  return id;
+}
+
+function resetConversationId() {
+  localStorage.removeItem(CONVERSATION_ID_KEY);
+}

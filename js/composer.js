@@ -189,6 +189,7 @@ function clearChat() {
   isAwaitingResponse = false;
   isLockedUntilReplyFinishes = false;
   localStorage.removeItem(STORAGE_KEY);
+  resetConversationId();
   messages.innerHTML = "";
   composerInput.value = "";
   autoResize();

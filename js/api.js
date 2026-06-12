@@ -301,7 +301,11 @@ async function showTypingAndReply(userText) {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ query: userText })
+      body: JSON.stringify({
+        conversationId: getConversationId(),
+        userId: CHAT_USER_ID,
+        query: userText
+      })
     });
 
     const raw = await resp.text();

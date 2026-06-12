@@ -1,0 +1,45 @@
+# ComuStock Chat + RAG + DB — entorno LOCAL
+# Ubicación: raíz del repo cs-chat-rag
+# Uso: docker compose up -d
+#
+# Servicios:
+#   postgres : PostgreSQL 16 en localhost:5432, schema cs_chat_* auto-inicializado
+#   web      : nginx en localhost:3000 sirviendo TODO el repo:
+#              - frontend  -> http://localhost:3000/prompt-comustock.html
+#              - RAG JSONL -> http://localhost:3000/rag/comustock_rag_chunks_html_compacto_v2_2026-04-17.jsonl
+#                (la URL exacta que ya espera el nodo "Cargar chunks RAG")
+#
+# n8n corre en el HOST con `npx n8n` (recomendado para dev): así "localhost"
+# dentro del workflow apunta a tu máquina y no hace falta tocar URLs ni hosts.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: comustock-postgres
+    environment:
+      POSTGRES_USER: comustock
+      POSTGRES_PASSWORD: comustock_dev
+      POSTGRES_DB: comustock
+    ports:
+      - "5432:5432"
+    volumes:
+      - comustock_pgdata:/var/lib/postgresql/data
+      # Se ejecuta automáticamente SOLO en el primer arranque (volumen vacío).
+      # Si cambiás el SQL después: docker compose down -v && docker compose up -d
+      - ./n8n/sql/init_comustock_chat_memory.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U comustock -d comustock"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  web:
+    image: nginx:alpine
+    container_name: comustock-web
+    ports:
+      - "3000:80"
+    volumes:
+      - .:/usr/share/nginx/html:ro
+
+volumes:
+  comustock_pgdata:
